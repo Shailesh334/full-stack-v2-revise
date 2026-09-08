@@ -2,10 +2,11 @@ import express from "express";
 import bcrypt from "bcrypt";
 import db from "../db.js";
 import jwt from "jsonwebtoken";
+import prisma from "../PrismaClient.js";
 
 const router = express.Router();
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
   // create hashed password
@@ -13,15 +14,16 @@ router.post("/register", (req, res) => {
 
   try {
     // Store user into db
-    const query = db.prepare(`
-        INSERT INTO users (username , password) VALUES (? , ?)
-        `);
-
-    const result = query.run(username, hashPassWord);
+    const user = await prisma.user.create({
+        data : {
+          username : username,
+          password : hashPassWord  
+        }
+    })
 
     // create token
     const token = jwt.sign(
-      { id: result.lastInsertRowid },
+      { id: user.id },
       process.env.JWT_SECRET,
       { expiresIn: "24h" },
     );
