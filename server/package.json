@@ -12,10 +12,13 @@
   "license": "ISC",
   "description": "backend of a todo-app built using nodeJs , sqlite , express , jwt authentication",
   "dependencies": {
+    "@prisma/client": "^7.10.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.0",
+    "prisma": "^7.10.0"
   }
 }
